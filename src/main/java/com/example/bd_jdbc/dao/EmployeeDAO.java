@@ -6,9 +6,9 @@ public interface EmployeeDAO {
 
     void create(Employee employee);
 
-    void delete(int id);
+    void delete(Employee employee, int id);
 
-    void updateAgeById(int age, int id);
+    void updateAgeById(Employee employee, int id);
 
     List<Employee> readAll();
 
