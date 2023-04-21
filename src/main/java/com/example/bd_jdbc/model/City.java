@@ -1,11 +1,35 @@
-package com.example.bd_jdbc.dao;
+package com.example.bd_jdbc.model;
 
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "city")
 public class City {
+    @Id
+    @Column(name = "city_id")
     private int cityId;
+    @Column(name = "city_name")
     private String cityName;
 
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Employee> employeeList;
+
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
+    }
+
+    public City() {
+    }
+
+    public City(String cityName) {
+        this.cityName = cityName;
+    }
 
     public City(int id, String cityName) {
         this.cityId = id;
@@ -43,9 +67,10 @@ public class City {
 
     @Override
     public String toString() {
-        return "City{" +
-                "id=" + cityId +
-                ", city_name='" + cityName + '\'' +
-                '}';
+        return "Город " +
+                "id " + cityId +
+                ", название города " + cityName + '\'' +
+                ", Сотрудники из выбранного города " +
+                employeeList.toString();
     }
 }

@@ -1,17 +1,21 @@
 package com.example.bd_jdbc.dao;
 
+import com.example.bd_jdbc.model.City;
+import com.example.bd_jdbc.model.Employee;
+
 import java.util.List;
 
 public interface EmployeeDAO {
 
-    void create(Employee employee);
+    void add(Employee employee);
 
-    void delete(Employee employee, int id);
+    void delete(Employee employee);
 
-    void updateAgeById(Employee employee, int id);
+    void update(Employee employee, int id);
 
-    List<Employee> readAll();
+    List<Employee> readAllEmployees();
 
-    Employee readById(int id);
+    Employee get(int id);
 
+    City readByCityId(int id);
 }
