@@ -1,64 +1,57 @@
 package com.example.bd_jdbc.dao;
 
 import com.example.bd_jdbc.model.City;
-import com.example.bd_jdbc.model.Employee;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-public class EmployeeDaoImpl implements EmployeeDAO {
-
-
-    public EmployeeDaoImpl() {
-
+public class CityDaoImpl implements CityDAO {
+    public CityDaoImpl() {
     }
 
     @Override
-    public void add(Employee employee) {
+    public City addCity(City city) {
         EntityManager entityManager = PersistenceReader.entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(employee);
-        entityManager.getTransaction().commit();
-        entityManager.close();
-    }
-
-    @Override
-    public void delete(Employee employee) {
-        EntityManager entityManager = PersistenceReader.entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.remove(entityManager.merge(employee));
+        entityManager.persist(city);
         entityManager.flush();
         entityManager.getTransaction().commit();
         entityManager.close();
+        return city;
     }
 
     @Override
-    public void update(Employee employee, int id) {
+    public void deleteCity(City city) {
         EntityManager entityManager = PersistenceReader.entityManagerFactory.createEntityManager();
-        employee.setId(id);
         entityManager.getTransaction().begin();
-        entityManager.merge(employee);
-        entityManager.flush();
+        entityManager.remove(entityManager.merge(city));
         entityManager.getTransaction().commit();
         entityManager.close();
+
     }
 
     @Override
-    public List<Employee> readAllEmployees() {
+    public City updateCity(City city) {
+        City updated;
         EntityManager entityManager = PersistenceReader.entityManagerFactory.createEntityManager();
-        return entityManager.createQuery("SELECT e FROM Employee e", Employee.class).getResultList();
+        entityManager.getTransaction().begin();
+        updated = entityManager.merge(city);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return updated;
     }
 
     @Override
-    public Employee get(int id) {
+    public List<City> getAllCities() {
         EntityManager entityManager = PersistenceReader.entityManagerFactory.createEntityManager();
-        return entityManager.find(Employee.class, id);
+        return entityManager.createQuery("SELECT c FROM City c").getResultList();
     }
 
     @Override
-    public City readByCityId(int id) {
+    public City getCity(int id) {
         EntityManager entityManager = PersistenceReader.entityManagerFactory.createEntityManager();
-        return entityManager.find(City.class, id);
+        City city1 = entityManager.find(City.class, id);
+        entityManager.close();
+        return city1;
     }
-
 }
